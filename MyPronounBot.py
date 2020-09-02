@@ -65,13 +65,33 @@ pronouns = [
     'zme/zmyr'
 ]
 
+def is_pronoun(str):
+    for pronoun in pronouns:
+        if str.startswith(pronoun):
+            return True
+    return False
+
 @client.event
 async def on_message(message):
     if message.content.startswith('!mypronoun is '):
         pronoun = message.content.split('!mypronoun is ')[1]
+        present = False
+        for p in pronouns:
+            if p.startswith(pronoun):
+                pronoun = p
+                present = True
         name = message.author.name
-        if message.author.nick is not None:
-            name = message.author.nick
-        await message.author.edit(nick=name + ' ' + pronoun)
+        if message.author.nick is not None and message.author.nick != message.author.name:
+            nick = message.author.nick
+            first = True
+            for s in nick.split('(')[1:]:
+                if first:
+                    nick = nick.split('(')[0]
+                    first = False
+                if not is_pronoun(s):
+                    nick = nick + '(' + s
+            name = nick
+        if present:
+            await message.author.edit(nick=name + ' (' + pronoun + ')')
 
 client.run(TOKEN)
