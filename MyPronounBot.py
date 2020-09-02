@@ -94,4 +94,8 @@ async def on_message(message):
         if present:
             await message.author.edit(nick=name + ' (' + pronoun + ')')
 
+@client.event
+async def on_connect():
+    await client.change_presence(activity=discord.Game(name="!mypronoun is it/it/its"))
+
 client.run(TOKEN)
