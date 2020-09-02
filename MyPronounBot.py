@@ -94,7 +94,7 @@ async def on_message(message):
         if present:
             await message.author.edit(nick=name + ' (' + pronoun + ')')
     if message.content.startswith('!mypronoun help'):
-        await message.channel.send('To set your pronouns, just message "!mypronoun is *pronoun*" to any channel the bot has access to. For example, "!mypronoun is she/her". You can also change your pronouns at any time with the same command.')
+        await message.channel.send('To set your pronouns, just message "!mypronoun is *pronoun*" to any channel the bot has access to. For example, "!mypronoun is she/her". You can also change your pronouns at any time with the same command. If you have any trouble, visit the MyPronounBot Discord server: https://discord.gg/GEKq4Ut')
 
 @client.event
 async def on_connect():
