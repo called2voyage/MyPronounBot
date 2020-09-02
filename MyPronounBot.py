@@ -23,47 +23,47 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 client = discord.Client()
 
-# pronouns = [
-#     'she/her',
-#     'he/him',
-#     'they/them',
-#     'ze/hir',
-#     'ze/zir',
-#     'xey/xem/xyr',
-#     'ae/aer',
-#     'e/em/eir',
-#     'ey/em/eir',
-#     'fae/faer',
-#     'fey/fem/feir'
-#     'hu/hum/hus',
-#     'it/it/its',
-#     'jee/jem/jeir',
-#     'kit/kit/kits',
-#     'ne/nem/nir',
-#     'peh/pehm/peh\'s',
-#     'per/per',
-#     'sie/hir',
-#     'se/sim/ser',
-#     'shi/hir',
-#     'si/hyr',
-#     'thon/thon/thons',
-#     've/ver/vis',
-# ve/vem
-# vi/ver
-# vi/vim/vir
-# vi/vim/vim
-# xie
-# xe
-# xey/xem/xeir
-# yo
-# ze/zem
-# ze/mer
-# zee
-# zie/zir
-# zie/zem
-# zie/hir
-# zme
-# ]
+pronouns = [
+    'she/her',
+    'he/him',
+    'they/them',
+    'ze/hir',
+    'ze/zir',
+    'xey/xem/xyr',
+    'ae/aer',
+    'e/em/eir',
+    'ey/em/eir',
+    'fae/faer',
+    'fey/fem/feir'
+    'hu/hum/hus',
+    'it/it/its',
+    'jee/jem/jeir',
+    'kit/kit/kits',
+    'ne/nem/nir',
+    'peh/pehm/peh\'s',
+    'per/per',
+    'sie/hir',
+    'se/sim/ser',
+    'shi/hir',
+    'si/hyr',
+    'thon/thon/thons',
+    've/ver/vis',
+    've/vem/vir',
+    'vi/ver',
+    'vi/vim/vir',
+    'vi/vim/vim',
+    'xie/xer',
+    'xe/xem/xyr',
+    'xey/xem/xeir',
+    'yo/yo/yos',
+    'ze/zem/zes',
+    'ze/mer/zer',
+    'zee/zed/zeta',
+    'zie/zir',
+    'zie/zem/zes',
+    'zie/hir',
+    'zme/zmyr'
+]
 
 @client.event
 async def on_message(message):
