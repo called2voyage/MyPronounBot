@@ -80,7 +80,7 @@ async def on_message(message):
             if p.startswith(pronoun):
                 pronoun = p
                 present = True
-        name = message.author.name
+        name = message.author.name + ' '
         if message.author.nick is not None and message.author.nick != message.author.name:
             nick = message.author.nick
             first = True
