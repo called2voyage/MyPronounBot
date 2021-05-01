@@ -34,6 +34,7 @@ pronouns = [
     'e/em/eir',
     'ey/em/eir',
     'fae/faer',
+    'fae/flux/faer',
     'fey/fem/feir'
     'hu/hum/hus',
     'it/it/its',
