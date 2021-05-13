@@ -97,7 +97,12 @@ async def mypronoun_is(ctx, pronoun):
 bot.remove_command('help')
 @bot.command(name='help', help='Displays the help message')
 async def help(ctx):
-    await ctx.send('To set your pronouns, just message "!mypronoun is *pronoun*" to any channel the bot has access to. For example, "!mypronoun is she/her". You can also change your pronouns at any time with the same command. If you have any trouble, visit the MyPronounBot Discord server: https://discord.gg/GEKq4Ut')
+    help_message = """To set your pronouns, just message `!mypronoun is [pronoun]` to any channel the bot has access to. For example, `!mypronoun is she/her`.
+
+You can also change your pronouns at any time with the same command.
+
+If you have any trouble, visit the MyPronounBot Discord server: https://discord.gg/GEKq4Ut"""
+    await ctx.send(help_message)
 
 @bot.event
 async def on_connect():
