@@ -15,8 +15,9 @@
 
 import os
 
-from discord import Game
+from discord import Game, Embed
 from discord.ext import commands
+from reactionmenu import ReactionMenu
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -103,6 +104,27 @@ You can also change your pronouns at any time with the same command.
 
 If you have any trouble, visit the MyPronounBot Discord server: https://discord.gg/GEKq4Ut"""
     await ctx.send(help_message)
+
+@bot.command(name='list', help='Lists recognized pronouns')
+async def list(ctx):
+    menu = ReactionMenu(ctx, back_button='◀️', next_button='▶️', config=ReactionMenu.STATIC)
+    pronoun_details = []
+    count = 1
+    chunk = ''
+    for pronoun in pronouns:
+        chunk = chunk + pronoun + '\n'
+        if count % 10 == 0 or count == len(pronouns):
+            embed = Embed(title='Recognized Pronouns')
+            page_number = count // 10
+            if count % 10 != 0:
+                page_number = page_number + 1
+            embed.add_field(name='Page ' + str(page_number), value=chunk)
+            pronoun_details.append(embed)
+            chunk = ''
+        count = count + 1
+    for pronoun_embed in pronoun_details:
+        menu.add_page(pronoun_embed)
+    await menu.start()
 
 @bot.event
 async def on_connect():
