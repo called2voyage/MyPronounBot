@@ -15,13 +15,14 @@
 
 import os
 
-import discord
+from discord import Game
+from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-client = discord.Client()
+bot = commands.Bot(command_prefix='!mypronoun ')
 
 pronouns = [
     'she/her',
@@ -72,33 +73,34 @@ def is_pronoun(str):
             return True
     return False
 
-@client.event
-async def on_message(message):
-    if message.content.startswith('!mypronoun is '):
-        pronoun = message.content.split('!mypronoun is ')[1]
-        present = False
-        for p in pronouns:
-            if p.startswith(pronoun):
-                pronoun = p
-                present = True
-        name = message.author.name + ' '
-        if message.author.nick is not None and message.author.nick != message.author.name:
-            nick = message.author.nick
-            first = True
-            for s in nick.split('(')[1:]:
-                if first:
-                    nick = nick.split('(')[0]
-                    first = False
-                if not is_pronoun(s):
-                    nick = nick + '(' + s
-            name = nick
-        if present:
-            await message.author.edit(nick=name + '(' + pronoun + ')')
-    if message.content.startswith('!mypronoun help'):
-        await message.channel.send('To set your pronouns, just message "!mypronoun is *pronoun*" to any channel the bot has access to. For example, "!mypronoun is she/her". You can also change your pronouns at any time with the same command. If you have any trouble, visit the MyPronounBot Discord server: https://discord.gg/GEKq4Ut')
+@bot.command(name='is', help='Sets your pronouns')
+async def mypronoun_is(ctx, pronoun):
+    present = False
+    for p in pronouns:
+        if p.startswith(pronoun):
+            pronoun = p
+            present = True
+    name = ctx.message.author.name + ' '
+    if ctx.message.author.nick is not None and ctx.message.author.nick != ctx.message.author.name:
+        nick = ctx.message.author.nick
+        first = True
+        for s in nick.split('(')[1:]:
+            if first:
+                nick = nick.split('(')[0]
+                first = False
+            if not is_pronoun(s):
+                nick = nick + '(' + s
+        name = nick
+    if present:
+        await ctx.message.author.edit(nick=name + '(' + pronoun + ')')
 
-@client.event
+bot.remove_command('help')
+@bot.command(name='help', help='Displays the help message')
+async def help(ctx):
+    await ctx.send('To set your pronouns, just message "!mypronoun is *pronoun*" to any channel the bot has access to. For example, "!mypronoun is she/her". You can also change your pronouns at any time with the same command. If you have any trouble, visit the MyPronounBot Discord server: https://discord.gg/GEKq4Ut')
+
+@bot.event
 async def on_connect():
-    await client.change_presence(activity=discord.Game(name="!mypronoun is it/it/its"))
+    await bot.change_presence(activity=Game(name="!mypronoun is it/it/its"))
 
-client.run(TOKEN)
+bot.run(TOKEN)
