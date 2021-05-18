@@ -15,15 +15,17 @@
 
 import os
 
-from discord import Game, Embed
+from discord import Game, Embed, Intents
 from discord.ext import commands
 from reactionmenu import ReactionMenu
 from dotenv import load_dotenv
 
+intents = Intents(messages=True, reactions=True, guilds=True, members=True)
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-bot = commands.Bot(command_prefix='!mypronoun ')
+bot = commands.Bot(command_prefix='!mypronoun ', intents=intents)
 
 pronouns = [
     'she/her',
