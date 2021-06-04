@@ -92,14 +92,12 @@ async def mypronoun_is(ctx, *args):
         nick = ctx.message.author.nick
         possible_pronouns = nick.split('(')[1:]
         nick = nick.split('(')[0]
-        add_space = False
         for s in possible_pronouns:
             if not is_pronoun(s[:-1]) and not is_pronoun(s[:-1].split(',')[0]):
                 nick = nick + '(' + s
-                add_space = True
-        name = nick
-        if add_space:
-            name = name + ' '
+            else:
+                nick = nick.rstrip()
+        name = nick + ' '
     if len(user_pronouns) == 1:
         await ctx.message.author.edit(nick=name + '(' + user_pronouns[0] + ')')
     elif len(user_pronouns) > 1:
