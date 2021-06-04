@@ -112,6 +112,26 @@ async def mypronoun_is(ctx, *args):
         pronoun_string = pronoun_string + ')'
         await ctx.message.author.edit(nick=name + pronoun_string)
 
+@bot.command(name='howto', help='Explains how to use pronouns')
+async def howto(ctx, pronoun):
+    for p in pronouns:
+        if p.startswith(pronoun) and pronoun != 'any':
+            subject = p.split('/')[0]
+            object = p.split('/')[1]
+            possessive = ''
+            if p.split('/')[0] == 'he':
+                possessive = 'his'
+            elif p.split('/')[0] == 'they':
+                possessive = 'their'
+            else:
+                if len(p.split('/')) < 3:
+                    possessive = p.split('/')[1]
+                else:
+                    possessive = p.split('/')[2]
+            await ctx.send(subject.capitalize() + ' ran to the house. I ran to the house with ' + object + '. ' + subject.capitalize() + ' brought ' + possessive + ' book.')
+        elif p.startswith(pronoun) and pronoun == 'any':
+            await ctx.send('This person doesn\'t mind which pronouns you use for them. Take a look at our list with `!mypronoun list` if you want a few examples to try!')
+
 bot.remove_command('help')
 @bot.command(name='help', help='Displays the help message')
 async def help(ctx):
