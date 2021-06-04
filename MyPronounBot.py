@@ -67,35 +67,52 @@ pronouns = [
     'zie/zir',
     'zie/zem/zes',
     'zie/hir',
-    'zme/zmyr'
+    'zme/zmyr',
+    'any'
 ]
 
 def is_pronoun(str):
     for pronoun in pronouns:
-        if str.startswith(pronoun):
+        if pronoun.startswith(str):
             return True
     return False
 
 @bot.command(name='is', help='Sets your pronouns')
-async def mypronoun_is(ctx, pronoun):
-    present = False
-    for p in pronouns:
-        if p.startswith(pronoun):
-            pronoun = p
-            present = True
+async def mypronoun_is(ctx, *args):
     name = ctx.message.author.name + ' '
+    user_pronouns = []
+    for pronoun in args:
+        added = False
+        for p in pronouns:
+            if p.startswith(pronoun):
+                if not added:
+                    user_pronouns.append(p)
+                    added = True
     if ctx.message.author.nick is not None and ctx.message.author.nick != ctx.message.author.name:
         nick = ctx.message.author.nick
-        first = True
-        for s in nick.split('(')[1:]:
-            if first:
-                nick = nick.split('(')[0]
-                first = False
-            if not is_pronoun(s):
+        possible_pronouns = nick.split('(')[1:]
+        nick = nick.split('(')[0]
+        add_space = False
+        for s in possible_pronouns:
+            if not is_pronoun(s[:-1]) and not is_pronoun(s[:-1].split(',')[0]):
                 nick = nick + '(' + s
+                add_space = True
         name = nick
-    if present:
-        await ctx.message.author.edit(nick=name + '(' + pronoun + ')')
+        if add_space:
+            name = name + ' '
+    if len(user_pronouns) == 1:
+        await ctx.message.author.edit(nick=name + '(' + user_pronouns[0] + ')')
+    elif len(user_pronouns) > 1:
+        pronoun_string = '('
+        first = True
+        for pronoun in user_pronouns:
+            if first:
+                pronoun_string = pronoun_string + pronoun.split('/')[0]
+                first = False
+            else:
+                pronoun_string = pronoun_string + ', ' + pronoun.split('/')[0]
+        pronoun_string = pronoun_string + ')'
+        await ctx.message.author.edit(nick=name + pronoun_string)
 
 bot.remove_command('help')
 @bot.command(name='help', help='Displays the help message')
@@ -103,6 +120,8 @@ async def help(ctx):
     help_message = """To set your pronouns, just message `!mypronoun is [pronoun]` to any channel the bot has access to. For example, `!mypronoun is she/her`.
 
 You can also change your pronouns at any time with the same command.
+
+If you'd like to include multiple pronouns, you can by separating them with spaces, like this `!mypronoun is she they`. The pronouns will be displayed shortened with commas: `[nickname] (she, they)`.
 
 If you have any trouble, visit the MyPronounBot Discord server: https://discord.gg/GEKq4Ut"""
     await ctx.send(help_message)
