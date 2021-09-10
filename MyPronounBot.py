@@ -99,7 +99,11 @@ async def mypronoun_is(ctx, *args):
                 nick = nick.rstrip()
         name = nick + ' '
     if len(user_pronouns) == 1:
-        await ctx.message.author.edit(nick=name + '(' + user_pronouns[0] + ')')
+        nick_arg = name + '(' + user_pronouns[0] + ')'
+        if ctx.message.author == ctx.message.guild.owner:
+            await ctx.send('`/nick ' + nick_arg + '`')
+        else:
+            await ctx.message.author.edit(nick=nick_arg)
     elif len(user_pronouns) > 1:
         pronoun_string = '('
         first = True
@@ -110,7 +114,11 @@ async def mypronoun_is(ctx, *args):
             else:
                 pronoun_string = pronoun_string + ', ' + pronoun.split('/')[0]
         pronoun_string = pronoun_string + ')'
-        await ctx.message.author.edit(nick=name + pronoun_string)
+        nick_arg = name + pronoun_string
+        if ctx.message.author == ctx.message.guild.owner:
+            await ctx.send('`/nick ' + nick_arg + '`')
+        else:
+            await ctx.message.author.edit(nick=nick_arg)
 
 @bot.command(name='howto', help='Explains how to use pronouns')
 async def howto(ctx, pronoun):
