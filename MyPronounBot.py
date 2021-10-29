@@ -73,7 +73,7 @@ pronouns = [
 
 def is_pronoun(str):
     for pronoun in pronouns:
-        if pronoun.startswith(str):
+        if pronoun.startswith(str.casefold()):
             return True
     return False
 
@@ -84,7 +84,7 @@ async def mypronoun_is(ctx, *args):
     for pronoun in args:
         added = False
         for p in pronouns:
-            if p.startswith(pronoun):
+            if p.startswith(pronoun.casefold()):
                 if not added:
                     user_pronouns.append(p)
                     added = True
@@ -123,7 +123,7 @@ async def mypronoun_is(ctx, *args):
 @bot.command(name='howto', help='Explains how to use pronouns')
 async def howto(ctx, pronoun):
     for p in pronouns:
-        if p.startswith(pronoun) and pronoun != 'any':
+        if p.startswith(pronoun.casefold()) and pronoun.casefold() != 'any':
             subject = p.split('/')[0]
             object = p.split('/')[1]
             possessive = ''
@@ -137,7 +137,7 @@ async def howto(ctx, pronoun):
                 else:
                     possessive = p.split('/')[2]
             await ctx.send(subject.capitalize() + ' ran to the house. I ran to the house with ' + object + '. ' + subject.capitalize() + ' brought ' + possessive + ' book.')
-        elif p.startswith(pronoun) and pronoun == 'any':
+        elif p.startswith(pronoun.casefold()) and pronoun.casefold() == 'any':
             await ctx.send('This person doesn\'t mind which pronouns you use for them. Take a look at our list with `!mypronoun list` if you want a few examples to try!')
 
 bot.remove_command('help')
