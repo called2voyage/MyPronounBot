@@ -69,6 +69,7 @@ pronouns = [
     'zie/hir',
     'zme/zmyr',
     'mey/mer',
+    'sfynk/sfynx',
     'any'
 ]
 
