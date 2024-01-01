@@ -17,10 +17,10 @@ import os
 
 from discord import Game, Embed, Intents
 from discord.ext import commands
-from reactionmenu import ReactionMenu
+from reactionmenu import ReactionMenu, ReactionButton
 from dotenv import load_dotenv
 
-intents = Intents(messages=True, reactions=True, guilds=True, members=True)
+intents = Intents(messages=True, message_content=True, reactions=True, guilds=True, members=True)
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -68,6 +68,7 @@ pronouns = [
     'zie/zem/zes',
     'zie/hir',
     'zme/zmyr',
+    'mey/mer',
     'any'
 ]
 
@@ -154,7 +155,9 @@ If you have any trouble, visit the MyPronounBot Discord server: https://discord.
 
 @bot.command(name='list', help='Lists recognized pronouns')
 async def list(ctx):
-    menu = ReactionMenu(ctx, back_button='◀️', next_button='▶️', config=ReactionMenu.STATIC)
+    menu = ReactionMenu(ctx, menu_type=ReactionMenu.TypeEmbed)
+    menu.add_button(ReactionButton.back())
+    menu.add_button(ReactionButton.next())
     pronoun_details = []
     count = 1
     chunk = ''
